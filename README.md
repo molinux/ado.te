@@ -17,15 +17,24 @@
 
 🚧 **Ado.te is under development** 🚧
 
-## Layout
+## <center>  Layout </center>
+
+<br>
+<br>
 
 ![login](assets/ado.te-login.png)
 
 ![cadastro](assets/ado.te-cadastro.png)
 
+![novoPet](assets/ado.te-novo_pet.png)
+
+![listarPets](assets/ado.te-seus_pets.png)
+
+![adotar](assets/ado.te-adotar.png)
+
 ## Building
 
-## Create the project and virtual environment
+### Create the project and virtual environment
 
 ```bash
 mkdir adote && cd $_
@@ -33,7 +42,7 @@ python3 -m venv venv
 source venv/bin/activate
 ```
 
-## Install libs
+### Install libs
 
 ```bash
 pip3 install django
@@ -41,8 +50,8 @@ python3 -m pip install --upgrade pip
 pip3 install pillow
 ```
 
-## Criar o projeto
+### and running !
 
 ```bash
-django-admin startproject adote .
+python3 manage.py runserver 
 ```
