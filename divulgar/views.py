@@ -4,6 +4,7 @@ from .models import Tag, Raca, Pet
 from django.contrib import messages
 from django.contrib.messages import constants
 from django.http import HttpResponse
+from adotar.models import PedidoAdocao
 
 # Create your views here.
 @login_required
@@ -64,3 +65,14 @@ def remover_pet(request, id):
     
     messages.add_message(request, constants.SUCCESS, 'Pet removido com sucesso')
     return redirect('/divulgar/seus_pets')
+
+def ver_pet(request, id):
+    if request.method == "GET":
+        pet = Pet.objects.get(id=id)
+        return render(request, 'ver_pet.html', {'pet': pet})
+
+def ver_pedido_adocao(request):
+    if request.method == "GET":
+        # Apenas os pedidos do meu usuario e que estão aguardando aprovação
+        pedidos = PedidoAdocao.objects.filter(usuario=request.user).filter(status="AG")
+        return render(request, 'ver_pedido_adocao.html', {'pedidos': pedidos})
