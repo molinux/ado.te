@@ -5,6 +5,7 @@ from django.contrib import messages
 from .models import PedidoAdocao
 from datetime import datetime
 from django.http import HttpResponse
+from django.core.mail import send_mail
 
 # Create your views here.
 def listar_pets(request):
@@ -38,8 +39,39 @@ def pedido_adocao(request, id_pet):
 
     return redirect('/adotar')
 
+# def processa_pedido_adocao(request, id_pedido, id_pet):
 def processa_pedido_adocao(request, id_pedido):
     # Parametro status recebido de ./divulgar/templates/ver_pedido_adocao.html
     status = request.GET.get('status')
-    return HttpResponse(status)
+    pedido = PedidoAdocao.objects.get(id=id_pedido)
+    # pet = Pet.objects.get(pet)
+
+    if status == "A":
+        pedido.status = 'AP'
+        # pet.status = 'A'
+        # enviar email de aviso
+        string = '''Olá, sua adoção foi aprovada com sucesso...'''
+    elif status == "R":
+        pedido.status = 'R'
+        # pet.status = 'P'
+        string = '''Olá, sua adoção foi recusada...'''
+
+    #TODO: Alterar status do pet
+
+    # Salvando a alteração no banco
+    pedido.save()
+    # pet.save()
+
+    email = send_mail(
+        'Sua adoção foi processada',
+        string,
+        # Como está em modo teste, pode colocar qualquer email
+        'molinuxbr@gmail.com',
+        [pedido.usuario.email,]
+    )
+
+    messages.add_message(request, constants.SUCCESS, 'Pedido de adoção processado com sucesso')
+    return redirect('/divulgar/ver_pedido_adocao')
+
+    # return HttpResponse(status)
 

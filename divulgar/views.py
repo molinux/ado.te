@@ -76,3 +76,7 @@ def ver_pedido_adocao(request):
         # Apenas os pedidos do meu usuario e que estão aguardando aprovação
         pedidos = PedidoAdocao.objects.filter(usuario=request.user).filter(status="AG")
         return render(request, 'ver_pedido_adocao.html', {'pedidos': pedidos})
+
+def dashboard(request):
+    if request.method == "GET":
+        return render(request, 'dashboad.html')
